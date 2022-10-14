@@ -275,8 +275,6 @@ example_input = torch.rand(1,3,256,256)
 traced_mobile_model = torch.jit.trace(mobile_model, example_input)
 
 mobile_model_converted = ct.convert(
-    traced_mobile_model,
-    convert_to="mlprogram",
-    inputs=[ct.TensorType(shape=example_input.shape)]
-)
-mobile_model_converted.save("mobile_model.mlpackage")
+    traced_mobile_model, 
+    inputs=[ct.TensorType(shape=example_input.shape)])
+mobile_model_converted.save("mobile_model.mlmodel")
