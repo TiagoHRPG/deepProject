@@ -130,20 +130,6 @@ class ShuffleNetModel(pl.LightningModule):
 
         return {"loss": loss, "outputs": out, "labels": labels}
 
-    # def test_epoch_end(self, outputs):
-    #     loss = torch.stack([x['loss']for x in outputs]).mean()
-    #     output = torch.cat([x['outputs']for x in outputs], dim=0)
-
-    #     labels = torch.cat([x['labels'] for x in outputs], dim=0)
-
-    #     self.log("test/loss", loss)
-    #     acc = self.accuracy(output, labels)
-    #     self.log("test/acc", acc)
-
-    #     self.test_gts = labels
-
-    #     self.test_output = output
-
     def configure_optimizers(self):
         return torch.optim.Adam(self.parameters(), lr=self.learning_rate)
 
@@ -226,20 +212,6 @@ class MobileNetModel(pl.LightningModule):
 
         return {"loss": loss, "outputs": out, "labels": labels}
 
-    # def test_epoch_end(self, outputs):
-    #     loss = torch.stack([x['loss']for x in outputs]).mean()
-    #     output = torch.cat([x['outputs']for x in outputs], dim=0)
-
-    #     labels = torch.cat([x['labels'] for x in outputs], dim=0)
-
-    #     self.log("test/loss", loss)
-    #     acc = self.accuracy(output, labels)
-    #     self.log("test/acc", acc)
-
-    #     self.test_gts = labels
-
-    #     self.test_output = output
-
     def configure_optimizers(self):
         return torch.optim.Adam(self.parameters(), lr=self.learning_rate)
 
@@ -258,10 +230,10 @@ trainer_mobile.test(mobile_model, test_loader)
 
 torch.save(mobile_model.state_dict(), "mobile_model_state.pt")
 
-#trainer_shuffle.fit(shuffle_model, train_loader)
-#trainer_shuffle.test(shuffle_model, test_loader)
+trainer_shuffle.fit(shuffle_model, train_loader)
+trainer_shuffle.test(shuffle_model, test_loader)
 
-#torch.save(shuffle_model.state_dict(), "shuffle_model_state.pt")
+torch.save(shuffle_model.state_dict(), "shuffle_model_state.pt")
 
 
 # trace the model
