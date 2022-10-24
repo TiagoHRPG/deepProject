@@ -37,12 +37,6 @@ preprocess_train = transforms.Compose([
     transforms.CenterCrop(224),
     transforms.RandAugment(3),
     transforms.ToTensor(),
-    #transforms.RandomHorizontalFlip(0.5), # 53% com augmentation
-    #transforms.RandomRotation(45),
-    #transforms.GaussianBlur(3),
-    #transforms.ColorJitter(),
-    #transforms.RandomPerspective(),
-    #transforms.RandomEqualize(),
     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 ])
 
@@ -264,10 +258,10 @@ trainer_mobile.test(mobile_model, test_loader)
 
 torch.save(mobile_model.state_dict(), "mobile_model_state.pt")
 
-trainer_shuffle.fit(shuffle_model, train_loader)
-trainer_shuffle.test(shuffle_model, test_loader)
+#trainer_shuffle.fit(shuffle_model, train_loader)
+#trainer_shuffle.test(shuffle_model, test_loader)
 
-torch.save(shuffle_model.state_dict(), "shuffle_model_state.pt")
+#torch.save(shuffle_model.state_dict(), "shuffle_model_state.pt")
 
 
 # trace the model
@@ -276,5 +270,5 @@ traced_mobile_model = torch.jit.trace(mobile_model, example_input)
 
 mobile_model_converted = ct.convert(
     traced_mobile_model, 
-    inputs=[ct.TensorType(shape=example_input.shape)])
+    inputs=[ct.TensorType(shape=example_input.shape)], )
 mobile_model_converted.save("mobile_model.mlmodel")
